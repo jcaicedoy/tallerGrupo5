@@ -1,0 +1,13 @@
+[run]
+source = src
+branch = True
+omit =
+    src/__init__.py
+
+[report]
+show_missing = True
+skip_covered = False
+precision = 2
+
+[html]
+directory = htmlcov
