@@ -1,4 +1,4 @@
-"""Pruebas unitarias para el registro de contactos."""
+"""Pruebas unitarias del registro de contactos."""
 
 import pytest
 
@@ -12,12 +12,13 @@ from src.agenda import (
 
 @pytest.fixture(autouse=True)
 def limpiar_agenda():
-    """Limpia los contactos antes y después de cada prueba."""
+    """Limpia la agenda antes y después de cada prueba."""
     contactos.clear()
     yield
     contactos.clear()
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "nombre",
     [
@@ -31,6 +32,7 @@ def test_validar_nombre_correcto(nombre):
     assert validar_nombre(nombre) is True
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "nombre",
     [
@@ -47,6 +49,7 @@ def test_validar_nombre_incorrecto(nombre):
     assert validar_nombre(nombre) is False
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "telefono",
     [
@@ -59,6 +62,7 @@ def test_validar_telefono_correcto(telefono):
     assert validar_telefono(telefono) is True
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "telefono",
     [
@@ -75,6 +79,7 @@ def test_validar_telefono_incorrecto(telefono):
     assert validar_telefono(telefono) is False
 
 
+@pytest.mark.unit
 def test_registrar_contacto_correctamente():
     resultado = registrar_contacto(
         "Juan Pérez",
@@ -89,6 +94,7 @@ def test_registrar_contacto_correctamente():
     assert contactos["Juan Pérez"] == "0991234567"
 
 
+@pytest.mark.unit
 def test_registrar_contacto_elimina_espacios_externos():
     resultado = registrar_contacto(
         "  María López  ",
@@ -99,23 +105,19 @@ def test_registrar_contacto_elimina_espacios_externos():
     assert contactos["María López"] == "0987654321"
 
 
+@pytest.mark.unit
 def test_registrar_contacto_con_nombre_incorrecto():
     with pytest.raises(
         ValueError,
         match="El nombre debe contener únicamente letras y espacios",
     ):
-        registrar_contacto(
-            "Juan123",
-            "0991234567",
-        )
+        registrar_contacto("Juan123", "0991234567")
 
 
+@pytest.mark.unit
 def test_registrar_contacto_con_telefono_incorrecto():
     with pytest.raises(
         ValueError,
         match="El teléfono debe contener exactamente 10 dígitos",
     ):
-        registrar_contacto(
-            "Juan Pérez",
-            "099123456",
-        )
+        registrar_contacto("Juan Pérez", "099123456")

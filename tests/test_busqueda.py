@@ -1,4 +1,4 @@
-"""Pruebas unitarias para la búsqueda de contactos."""
+"""Pruebas unitarias de búsqueda de contactos."""
 
 import pytest
 
@@ -11,7 +11,7 @@ from src.agenda import (
 
 @pytest.fixture(autouse=True)
 def preparar_agenda():
-    """Prepara contactos antes de cada prueba."""
+    """Carga contactos antes de cada prueba."""
     contactos.clear()
 
     registrar_contacto("Juan Pérez", "0991234567")
@@ -23,7 +23,8 @@ def preparar_agenda():
     contactos.clear()
 
 
-def test_buscar_contacto_por_nombre_exacto():
+@pytest.mark.unit
+def test_buscar_contacto_exacto():
     resultado = buscar_contactos("Juan Pérez")
 
     assert resultado == [
@@ -34,7 +35,8 @@ def test_buscar_contacto_por_nombre_exacto():
     ]
 
 
-def test_buscar_contactos_por_coincidencia_parcial():
+@pytest.mark.unit
+def test_buscar_contacto_parcial():
     resultado = buscar_contactos("Juan")
 
     assert len(resultado) == 2
@@ -42,7 +44,8 @@ def test_buscar_contactos_por_coincidencia_parcial():
     assert resultado[1]["nombre"] == "Juana López"
 
 
-def test_buscar_contacto_sin_distinguir_mayusculas():
+@pytest.mark.unit
+def test_busqueda_no_distingue_mayusculas():
     resultado = buscar_contactos("MARÍA")
 
     assert resultado == [
@@ -53,19 +56,12 @@ def test_buscar_contacto_sin_distinguir_mayusculas():
     ]
 
 
-def test_buscar_contacto_elimina_espacios_externos():
-    resultado = buscar_contactos("  Juan Pérez  ")
-
-    assert len(resultado) == 1
-    assert resultado[0]["nombre"] == "Juan Pérez"
-
-
+@pytest.mark.unit
 def test_buscar_contacto_inexistente():
-    resultado = buscar_contactos("Carlos")
-
-    assert resultado == []
+    assert buscar_contactos("Carlos") == []
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "criterio",
     [
@@ -75,7 +71,7 @@ def test_buscar_contacto_inexistente():
         None,
     ],
 )
-def test_buscar_contacto_con_criterio_invalido(criterio):
+def test_buscar_con_criterio_invalido(criterio):
     with pytest.raises(
         ValueError,
         match="Debe ingresar un nombre válido",

@@ -1,18 +1,10 @@
-"""Funciones principales de la agenda telefónica."""
+"""Lógica principal de la agenda telefónica."""
 
 contactos: dict[str, str] = {}
 
 
 def validar_nombre(nombre: str) -> bool:
-    """
-    Verifica que el nombre contenga únicamente letras y espacios.
-
-    Args:
-        nombre: Nombre del contacto que se desea validar.
-
-    Returns:
-        True cuando el nombre es válido; False en caso contrario.
-    """
+    """Valida que el nombre tenga únicamente letras y espacios."""
     if not isinstance(nombre, str):
         return False
 
@@ -28,15 +20,7 @@ def validar_nombre(nombre: str) -> bool:
 
 
 def validar_telefono(telefono: str) -> bool:
-    """
-    Verifica que el teléfono tenga exactamente diez dígitos.
-
-    Args:
-        telefono: Número telefónico que se desea validar.
-
-    Returns:
-        True cuando el teléfono es válido; False en caso contrario.
-    """
+    """Valida que el teléfono tenga exactamente diez dígitos."""
     if not isinstance(telefono, str):
         return False
 
@@ -44,19 +28,7 @@ def validar_telefono(telefono: str) -> bool:
 
 
 def registrar_contacto(nombre: str, telefono: str) -> dict[str, str]:
-    """
-    Registra un contacto después de validar su nombre y teléfono.
-
-    Args:
-        nombre: Nombre del contacto.
-        telefono: Número telefónico de diez dígitos.
-
-    Returns:
-        Diccionario con el nombre y teléfono registrados.
-
-    Raises:
-        ValueError: Si el nombre o el teléfono no son válidos.
-    """
+    """Registra un contacto después de validar sus datos."""
     nombre_limpio = nombre.strip() if isinstance(nombre, str) else nombre
 
     if not validar_nombre(nombre_limpio):
@@ -76,19 +48,16 @@ def registrar_contacto(nombre: str, telefono: str) -> dict[str, str]:
         "telefono": telefono,
     }
 
-def buscar_contactos(nombre: str) -> list[dict[str, str]]:
-    """
-    Busca contactos por coincidencia parcial del nombre.
 
-    La búsqueda no distingue entre mayúsculas y minúsculas.
-    """
+def buscar_contactos(nombre: str) -> list[dict[str, str]]:
+    """Busca contactos por coincidencia parcial del nombre."""
     if not isinstance(nombre, str) or not nombre.strip():
         raise ValueError(
             "Debe ingresar un nombre válido para realizar la búsqueda."
         )
 
     criterio = nombre.strip().casefold()
-    resultados = []
+    resultados: list[dict[str, str]] = []
 
     for nombre_contacto, telefono in contactos.items():
         if criterio in nombre_contacto.casefold():
