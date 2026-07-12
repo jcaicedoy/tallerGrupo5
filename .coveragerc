@@ -1,8 +1,11 @@
 [run]
-source = src
+source =
+    src
+    app.py
 branch = True
 omit =
     src/__init__.py
+    tests/*
 
 [report]
 show_missing = True
