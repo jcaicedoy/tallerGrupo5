@@ -75,3 +75,28 @@ def registrar_contacto(nombre: str, telefono: str) -> dict[str, str]:
         "nombre": nombre_limpio,
         "telefono": telefono,
     }
+
+def buscar_contactos(nombre: str) -> list[dict[str, str]]:
+    """
+    Busca contactos por coincidencia parcial del nombre.
+
+    La búsqueda no distingue entre mayúsculas y minúsculas.
+    """
+    if not isinstance(nombre, str) or not nombre.strip():
+        raise ValueError(
+            "Debe ingresar un nombre válido para realizar la búsqueda."
+        )
+
+    criterio = nombre.strip().casefold()
+    resultados = []
+
+    for nombre_contacto, telefono in contactos.items():
+        if criterio in nombre_contacto.casefold():
+            resultados.append(
+                {
+                    "nombre": nombre_contacto,
+                    "telefono": telefono,
+                }
+            )
+
+    return resultados
